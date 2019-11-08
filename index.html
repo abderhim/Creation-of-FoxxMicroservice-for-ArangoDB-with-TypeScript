@@ -1,0 +1,23 @@
+<html>
+<head>
+    <script src="/node_modules/socket.io-client/dist/socket.io.js"></script>
+</head>
+<body>
+    
+<script>
+  const socket = io('http://127.0.0.1:3000');
+  socket.on('connect', function(){});
+  socket.on('insert/update', function(data){
+    console.log('insert/update');
+    console.log(data);
+  });
+
+  socket.on('delete', function(data){
+    console.log('delete');
+    console.log(data);
+  });
+
+  socket.on('disconnect', function(){});
+</script>
+</body>
+</html>

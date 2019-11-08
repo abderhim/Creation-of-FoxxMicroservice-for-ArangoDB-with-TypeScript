@@ -1,0 +1,138 @@
+import { Component, ViewChild } from "@angular/core";
+
+@Component({
+  selector: "my-app",
+  template: `
+    <div style="height: 100%; padding-top: 35px; box-sizing: border-box;">
+      <ag-grid-angular
+        #agGrid
+        style="width: 100%; height: 100%;"
+        id="myGrid"dd
+        class="ag-theme-balham"
+        [columnDefs]="columnDefs"
+        [rowData]="rowData"
+        [defaultColDef]="defaultColDef"
+        [animateRows]="true"
+        [getRowNodeId]="getRowNodeId"
+        (gridReady)="onGridReady($event)"
+      ></ag-grid-angular>
+    </div>
+
+    <div style="position: absolute; top: 0px; left: 0px;">
+      <button (click)="setPriceOnToyota()">Set Price on Toyota</button>
+      <button (click)="setDataOnFord()">Set Data on Ford</button> &nbsp; &nbsp; &nbsp;
+      <button (click)="updateSort()">Sort</button> <button (click)="updateFilter()">Filter</button>
+    </div>
+  `
+})
+export class AppComponent {
+  private gridApi;
+  private gridColumnApi;
+
+  private columnDefs;
+  private rowData;
+  private defaultColDef;
+  private getRowNodeId;
+
+  constructor() {
+    this.columnDefs = [
+      {
+        headerName: "Make",
+        field: "make"
+      },
+      {
+        headerName: "Model",
+        field: "model"
+      },
+      {
+        headerName: "Price",
+        field: "price",
+        filter: "agNumberColumnFilter"
+      }
+    ];
+    this.rowData = [
+      {
+        id: "aa",
+        make: "Toyota",
+        model: "Celica",
+        price: 35000
+      },
+      {
+        id: "bb",
+        make: "Ford",
+        model: "Mondeo",
+        price: 32000
+      },
+      {
+        id: "cc",
+        make: "Porsche",
+        model: "Boxter",
+        price: 72000
+      },
+      {
+        id: "dd",
+        make: "BMW",
+        model: "5 Series",
+        price: 59000
+      },
+      {
+        id: "ee",
+        make: "Dodge",
+        model: "Challanger",
+        price: 35000
+      },
+      {
+        id: "ff",
+        make: "Mazda",
+        model: "MX5",
+        price: 28000
+      },
+      {
+        id: "gg",
+        make: "Horse",
+        model: "Outside",
+        price: 99000
+      }
+    ];
+    this.defaultColDef = {
+      editable: true,
+      sortable: true,
+      filter: true
+    };
+    this.getRowNodeId = function(data) {
+      return data.id;
+    };
+  }
+
+  updateSort() {
+    this.gridApi.refreshClientSideRowModel("sort");
+  }
+
+  updateFilter() {
+    this.gridApi.refreshClientSideRowModel("filter");
+  }
+
+  setPriceOnToyota() {
+    var rowNode = this.gridApi.getRowNode("aa");
+    var newPrice = Math.floor(Math.random() * 100000);
+    rowNode.setDataValue("price", newPrice);
+  }
+
+  setDataOnFord() {
+    var rowNode = this.gridApi.getRowNode("bb");
+    var newPrice = Math.floor(Math.random() * 100000);
+    var newModel = "T-" + Math.floor(Math.random() * 1000);
+    var newData = {
+      id: "bb",
+      make: "Ford",
+      model: newModel,
+      price: newPrice
+    };
+    rowNode.setData(newData);
+  }
+
+  onGridReady(params) {
+    this.gridApi = params.api;
+    this.gridColumnApi = params.columnApi;
+  }
+}
