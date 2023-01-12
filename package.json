@@ -6,9 +6,9 @@
   },
   "dependencies": {
     "arangochair": "4.0.2",
-    "express": "4.14.1",
-    "socket.io": "1.7.3",
-    "socket.io-client": "1.7.3",
+    "express": "4.18.2",
+    "socket.io": "4.5.4",
+    "socket.io-client": "4.5.4",
     "lodash.isstring": "^4.0.1",
     "request-easy": "^2.0.1"
   }
